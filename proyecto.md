@@ -3,17 +3,17 @@ Crea una aplicación fullstack donde los usuarios puedan crear listas de tareas 
 
 📌 Backend (Express.js + MongoDB)
 Autenticación de usuarios:
-
 Registro con nombre, email y contraseña (hash con bcrypt).
 Login con JWT para proteger las rutas.
+
+
 Gestión de listas de tareas:
+📌Un usuario puede crear múltiples listas de tareas.
+📌Cada lista tiene un título y una colección de tareas.
+📌CRUD de listas y tareas dentro de cada lista.
+📌Compartir listas con permisos:
 
-Un usuario puede crear múltiples listas de tareas.
-Cada lista tiene un título y una colección de tareas.
-CRUD de listas y tareas dentro de cada lista.
-Compartir listas con permisos:
-
-Un usuario puede invitar a otros a colaborar en su lista.
+📌Un usuario puede invitar a otros a colaborar en su lista.
 Roles: Admin (puede editar/eliminar la lista), Colaborador (puede añadir/completar tareas, pero no eliminar la lista).
 Endpoints requeridos:
 
@@ -25,6 +25,9 @@ POST /api/lists/:id/tasks → Agregar tarea a una lista.
 PUT /api/lists/:id/tasks/:taskId → Completar tarea.
 DELETE /api/lists/:id → Eliminar lista (solo el admin).
 POST /api/lists/:id/share → Compartir lista con otro usuario y asignar rol.
+
+
+
 📌 Frontend (React + TypeScript)
 Pantalla de login y registro.
 Dashboard de listas de tareas:
