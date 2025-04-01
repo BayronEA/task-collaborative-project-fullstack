@@ -6,6 +6,11 @@ export class authController {
   static async register(req, res) {
     const { email, password, username } = req.body
     try {
+      const userFound = await User.findOne({ email })
+      if (userFound) {
+        return res.status(400).json({ message: 'El usuario ya existe' })
+      }
+
       const passwordhash = await bcrypt.hash(password, 10)
 
       const newUser = new User({

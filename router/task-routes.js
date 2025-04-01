@@ -1,11 +1,20 @@
 import { Router } from 'express'
 import { authRequired } from '../middleware/validatetoken.js'
-import { authController } from '../controllers/auth-controller.js'
+import { TaskController } from '../controllers/task-controller.js'
+import { validateSchema } from '../middleware/validate-middleware.js'
+import { validateTaskSchema } from '../schemas/task-schema.js'
 
 const taskroutes = Router()
 
-taskroutes.get('/task', authRequired, (req, res) => {
-  res.json({ message: 'task ok' })
-})
+taskroutes.get('/tasks', authRequired, TaskController.getTasks)
+taskroutes.get('/tasks/:id', authRequired, TaskController.getTask)
+taskroutes.delete('/tasks/:id', authRequired, TaskController.deteletask)
+taskroutes.put('/task/:id', authRequired, TaskController.updatetask)
+taskroutes.post(
+  '/tasks',
+  authRequired,
+  validateSchema(validateTaskSchema),
+  TaskController.createTask
+)
 
 export default taskroutes
