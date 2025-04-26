@@ -1,6 +1,7 @@
-import User from '../models/user.js'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 import { createAccessToken } from '../libs/jwt.js'
+import User from '../models/user.js'
 
 export class authController {
   static async register(req, res) {
@@ -8,7 +9,7 @@ export class authController {
     try {
       const userFound = await User.findOne({ email })
       if (userFound) {
-        return res.status(400).json({ message: 'El usuario ya existe' })
+        return res.status(400).json(['El usuario ya existe'])
       }
 
       const passwordhash = await bcrypt.hash(password, 10)
@@ -49,9 +50,10 @@ export class authController {
       })
       res
         .cookie('token', token, {
-          httpOnly: true,
+          httpOnly: false,
           secure: process.env.NODE_ENV === 'production',
-          sameSite: 'strict',
+          sameSite: 'none',
+          secure: true,
         })
         .json({
           id: userFound._id,
@@ -78,6 +80,20 @@ export class authController {
       id: userFound._id,
       username: userFound.username,
       email: userFound.email,
+    })
+  }
+  static async verify(req, res) {
+    const { token } = req.cookies
+    if (!token) return res.status(401).json({ message: 'No autorizado' })
+    jwt.verify(token, process.env.SECRET_KEY_JWT, async (err, user) => {
+      if (err) return res.status(401).json({ message: 'No autorizado' })
+      const userFound = await User.findById(user.id)
+      if (!userFound) return res.status(401).json({ message: 'No autorizado' })
+      return res.json({
+        id: userFound._id,
+        username: userFound.username,
+        email: userFound.email,
+      })
     })
   }
 }
