@@ -1,7 +1,7 @@
 import { Router } from 'express'
-import { authRequired } from '../middleware/validatetoken.js'
 import { TaskController } from '../controllers/task-controller.js'
 import { validateSchema } from '../middleware/validate-middleware.js'
+import { authRequired } from '../middleware/validatetoken.js'
 import { validateTaskSchema } from '../schemas/task-schema.js'
 
 const taskroutes = Router()

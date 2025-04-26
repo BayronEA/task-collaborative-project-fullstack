@@ -5,7 +5,9 @@ export class TaskController {
     try {
       const tasks = await Task.find({ user: req.user.id }).populate('user')
       res.json(tasks)
-    } catch {}
+    } catch {
+      res.status(500).json({ message: 'Error al obtener las tareas' })
+    }
   }
   static async createTask(req, res) {
     try {
@@ -19,7 +21,6 @@ export class TaskController {
       const taskSaved = await newTask.save()
       res.json(taskSaved)
     } catch (error) {
-      console.error(error)
       res.status(500).json({ message: 'Error al crear la tarea' })
     }
   }
@@ -32,7 +33,6 @@ export class TaskController {
       if (!task) return res.status(404).json({ message: 'Task not found' })
       res.json(task)
     } catch (error) {
-      console.error(error)
       res.status(500).json({ message: 'Error al obtener la tarea' })
     }
   }
@@ -44,7 +44,9 @@ export class TaskController {
       })
       if (!task) return res.status(404).json({ message: 'Task not found' })
       res.json(task)
-    } catch {}
+    } catch {
+      res.status(500).json({ message: 'Error al eliminar la tarea' })
+    }
   }
   static async updatetask(req, res) {
     try {
@@ -55,6 +57,8 @@ export class TaskController {
       )
       if (!task) return res.status(404).json({ message: 'Task not found' })
       res.json(task)
-    } catch {}
+    } catch {
+      res.status(500).json({ message: 'Error al actualizar la tarea' })
+    }
   }
 }
