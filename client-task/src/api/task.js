@@ -11,7 +11,8 @@ export const updateTaskRequest = async (id, task) =>
 
 export const deleteTaskRequest = async id => {
   try {
-    await axios.delete(`/tasks/${id}`)
+    const res = await axios.delete(`/tasks/${id}`)
+    return res
   } catch (error) {
     if (error.response) {
       throw error.response.data

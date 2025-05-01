@@ -27,7 +27,6 @@ export function TaskProvider({ children }) {
   const [colaborators, setColaborators] = useState([])
   const createTask = async task => {
     const res = await createTaskRequest(task)
-    console.log(res)
   }
   const getTasks = async () => {
     try {
@@ -108,7 +107,6 @@ export function TaskProvider({ children }) {
           colaborators.filter(colaborator => colaborator._id !== colaboratorId)
         )
       }
-      console.log(res.data.message)
     } catch (error) {
       console.log(error)
       if (Array.isArray(error)) {

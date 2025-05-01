@@ -51,7 +51,7 @@ function ColaboratorPage() {
         <form onSubmit={handleSearch} className="flex gap-2">
           <input
             type="text"
-            placeholder="Buscar usuarios por nombre..."
+            placeholder="Buscar usuarios por nombre"
             className="w-full bg-zinc-700 text-white px-4 py-2 rounded-md"
             value={search}
             onChange={e => setSearch(e.target.value)}
