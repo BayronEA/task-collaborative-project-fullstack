@@ -3,6 +3,7 @@ import { AuthProvider } from './context/AuthContext'
 
 import Navbar from './components/Navbar'
 import { TaskProvider } from './context/TaskContext'
+import ColaboratorPage from './pages/ColaboratorPage'
 import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 import ProfilePage from './pages/ProfilePage'
@@ -26,6 +27,10 @@ function App() {
                 <Route path="/add-task" element={<TaskFormPage />} />
                 <Route path="/tasks/:id" element={<TaskFormPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
+                <Route
+                  path="/tasks/:id/colaborator"
+                  element={<ColaboratorPage />}
+                />
               </Route>
             </Routes>
           </main>

@@ -16,6 +16,7 @@ export const taskSchema = z.object({
       message: 'La descripción no puede estar vacía',
     }),
   date: z.string().datetime().optional(),
+  completed: z.boolean().optional(),
 })
 
 // El middleware espera el schema directamente, no una función

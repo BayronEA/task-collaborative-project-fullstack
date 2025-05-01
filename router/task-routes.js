@@ -16,5 +16,25 @@ taskroutes.post(
   validateSchema(validateTaskSchema),
   TaskController.createTask
 )
+taskroutes.post(
+  '/tasks/:id/colaborator',
+  authRequired,
+  TaskController.agregarColaborador
+)
+taskroutes.get(
+  '/tasks/:id/colaborator/search',
+  authRequired,
+  TaskController.buscarColaborador
+)
+taskroutes.get(
+  '/tasks/:id/colaborators/list',
+  authRequired,
+  TaskController.obtenerColaboradores
+)
+taskroutes.delete(
+  '/tasks/:id/colaborators/:colaboratorId',
+  authRequired,
+  TaskController.eliminarColaborador
+)
 
 export default taskroutes
