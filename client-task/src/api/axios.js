@@ -1,6 +1,6 @@
 import axios from 'axios'
 const instance = axios.create({
-  baseURL: process.env.APIBACKEND,
+  baseURL: import.meta.env.VITE_APIBACKEND,
   withCredentials: true
 })
 
