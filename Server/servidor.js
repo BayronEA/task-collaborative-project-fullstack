@@ -1,4 +1,4 @@
-import cookieparser from 'cookie-parser'
+import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import express from 'express'
@@ -16,7 +16,7 @@ app.use(
 app.use(express.json())
 dotenv.config()
 database()
-app.use(cookieparser())
+app.use(cookieParser())
 app.use('/', authrouter)
 app.use('/', taskroutes)
 app.get('/', (req, res) => {
