@@ -23,9 +23,7 @@ app.get('/', (req, res) => {
   res.send('<h1>Hola prueba</h1>')
 })
 
-export default app
-
-// const port = process.env.PORT ?? 3000
-// app.listen(port, () => {
-//   console.log(`servidor corriendo en el puerto http://localhost:${port}`)
-// })
+const port = process.env.PORT ?? 3000
+app.listen(port, () => {
+  console.log(`servidor corriendo en el puerto http://localhost:${port}`)
+})
