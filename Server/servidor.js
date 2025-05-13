@@ -9,7 +9,7 @@ import taskroutes from './router/task-routes.js'
 const app = express()
 app.use(
   cors({
-    origin: ['http://localhost:5173', 'https://taskcollaborative.vercel.app/'],
+    origin: ['http://localhost:5173', 'https://taskcollaborative.vercel.app'],
     credentials: true,
   })
 )
