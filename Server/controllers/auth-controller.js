@@ -51,8 +51,10 @@ export class authController {
       res
         .cookie('token', token, {
           httpOnly: true,
-          sameSite: 'None',
           secure: true,
+          sameSite: 'none',
+          maxAge: 24 * 60 * 60 * 1000, // 1 día
+          path: '/',
         })
         .json({
           id: userFound._id,
@@ -68,7 +70,15 @@ export class authController {
     }
   }
   static async logout(req, res) {
-    res.clearCookie('token').send('logout')
+    res
+      .cookie('token', '', {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+        expires: new Date(0),
+        path: '/',
+      })
+      .json({ message: 'Logged out successfully' })
   }
 
   static async profile(req, res) {
