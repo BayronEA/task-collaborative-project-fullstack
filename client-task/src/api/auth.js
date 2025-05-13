@@ -24,4 +24,14 @@ export const loginRequest = async user => {
   }
 }
 
-export const verifyTokenRequest = () => instance.get('/verify')
+export const verifyTokenRequest = async () => {
+  try {
+    const response = await instance.get('/verify')
+    return response.data
+  } catch (error) {
+    if (error.response) {
+      throw error.response.data
+    }
+    throw error
+  }
+}

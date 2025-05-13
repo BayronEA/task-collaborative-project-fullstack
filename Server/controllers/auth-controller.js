@@ -83,7 +83,6 @@ export class authController {
   }
   static async verify(req, res) {
     const { token } = req.cookies
-    if (!token) return console.log('no hay token')
     if (!token) return res.status(401).json({ message: 'No autorizado' })
     jwt.verify(token, process.env.SECRET_KEY_JWT, async (err, user) => {
       if (err) return res.status(401).json({ message: 'No autorizado' })
