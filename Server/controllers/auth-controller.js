@@ -53,6 +53,10 @@ export class authController {
           httpOnly: false,
           secure: process.env.NODE_ENV === 'production',
           sameSite: 'none',
+          secure: true,
+          maxAge: 3600000,
+          domain:
+            'https://task-collaborative-project-fullstack-en8w8d25k.vercel.app/',
         })
         .json({
           id: userFound._id,
