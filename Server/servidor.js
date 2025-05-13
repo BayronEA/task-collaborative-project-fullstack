@@ -9,7 +9,10 @@ import taskroutes from './router/task-routes.js'
 const app = express()
 app.use(
   cors({
-    origin: ['http://localhost:5173', 'https://taskcolla.netlify.app'],
+    origin: [
+      'http://localhost:5173',
+      'https://task-collaborative-project-fullstack.vercel.app',
+    ],
     credentials: true,
   })
 )
