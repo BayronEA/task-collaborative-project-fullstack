@@ -53,7 +53,6 @@ export class authController {
           httpOnly: false,
           secure: process.env.NODE_ENV === 'production',
           sameSite: 'none',
-          secure: true,
         })
         .json({
           id: userFound._id,

@@ -1,17 +1,18 @@
-import axios from './axios'
+import instance from './axios'
 
-export const getTasksRequest = async () => await axios.get('/tasks')
+export const getTasksRequest = async () => await instance.get('/tasks')
 
-export const getTaskRequest = async id => await axios.get(`/tasks/${id}`)
+export const getTaskRequest = async id => await instance.get(`/tasks/${id}`)
 
-export const createTaskRequest = async task => await axios.post('/tasks', task)
+export const createTaskRequest = async task =>
+  await instance.post('/tasks', task)
 
 export const updateTaskRequest = async (id, task) =>
-  await axios.put(`/task/${id}`, task)
+  await instance.put(`/task/${id}`, task)
 
 export const deleteTaskRequest = async id => {
   try {
-    const res = await axios.delete(`/tasks/${id}`)
+    const res = await instance.delete(`/tasks/${id}`)
     return res
   } catch (error) {
     if (error.response) {
@@ -22,11 +23,11 @@ export const deleteTaskRequest = async id => {
 }
 
 export const getColaboratorsRequest = async id =>
-  await axios.get(`/tasks/${id}/colaborators/list`)
+  await instance.get(`/tasks/${id}/colaborators/list`)
 
 export const searchColaboratorsRequest = async (id, username) => {
   try {
-    const response = await axios.get(
+    const response = await instance.get(
       `/tasks/${id}/colaborator/search?search=${username}`
     )
     return response
@@ -39,7 +40,7 @@ export const searchColaboratorsRequest = async (id, username) => {
 }
 export const addColaboratorRequest = async (id, username) => {
   try {
-    const response = await axios.post(`/tasks/${id}/colaborator`, username)
+    const response = await instance.post(`/tasks/${id}/colaborator`, username)
     return response.data
   } catch (error) {
     if (error.response) {
@@ -50,7 +51,7 @@ export const addColaboratorRequest = async (id, username) => {
 
 export const deleteColaboratorRequest = async (id, colaboratorId) => {
   try {
-    const response = await axios.delete(
+    const response = await instance.delete(
       `/tasks/${id}/colaborators/${colaboratorId}`
     )
     return response

@@ -1,8 +1,8 @@
-import axios from './axios'
+import instance from './axios'
 
 export const registerRequest = async user => {
   try {
-    const response = await axios.post(`/registro`, user)
+    const response = await instance.post(`/registro`, user)
     return response.data
   } catch (error) {
     if (error.response) {
@@ -14,7 +14,7 @@ export const registerRequest = async user => {
 
 export const loginRequest = async user => {
   try {
-    const response = await axios.post(`/login`, user)
+    const response = await instance.post(`/login`, user)
     return response.data
   } catch (error) {
     if (error.response) {
@@ -24,4 +24,4 @@ export const loginRequest = async user => {
   }
 }
 
-export const verifyTokenRequest = () => axios.get('/verify')
+export const verifyTokenRequest = () => instance.get('/verify')
