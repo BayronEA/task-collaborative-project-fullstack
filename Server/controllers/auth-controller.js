@@ -50,9 +50,9 @@ export class authController {
       })
       res
         .cookie('token', token, {
-          httpOnly: false,
-          secure: process.env.NODE_ENV === 'production',
+          httpOnly: true,
           sameSite: 'none',
+          secure: true,
         })
         .json({
           id: userFound._id,
