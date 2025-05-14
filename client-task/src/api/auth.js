@@ -24,13 +24,16 @@ export const loginRequest = async user => {
   }
 }
 
+// verifyTokenRequest ya no necesita tomar 'token' como argumento
 export const verifyTokenRequest = async () => {
   try {
     const response = await instance.get('/verify')
     return response.data
   } catch (error) {
     if (error.response) {
-      throw error.response.data
+      console.error('Error en verifyTokenRequest:', error.response.data)
+    } else {
+      console.error('Error desconocido en verifyTokenRequest:', error)
     }
     throw error
   }

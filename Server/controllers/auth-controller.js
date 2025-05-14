@@ -49,17 +49,13 @@ export class authController {
         username: userFound.username,
       })
       res
-        .cookie('token', token, {
-          sameSite: 'none',
-          secure: true,
-          httpOnly: true,
-          path: '/',
-        })
-        .json({
-          id: userFound._id,
-          username: userFound.username,
-          email: userFound.email,
-        })
+      res.json({
+        // Enviamos el token en la respuesta
+        token, // <--- AÑADIDO
+        id: userFound._id,
+        username: userFound.username,
+        email: userFound.email,
+      })
       console.log('cookies en el backend', req.cookies)
     } catch (error) {
       if (error instanceof Error) {
@@ -84,12 +80,30 @@ export class authController {
     })
   }
   static async verify(req, res) {
-    const { token } = req.cookies
-    if (!token) return res.status(401).json({ message: 'No autorizado' })
+    // El token se espera ahora en el encabezado Authorization: Bearer TOKEN
+    const authHeader = req.headers.authorization
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res
+        .status(401)
+        .json({
+          message: 'No autorizado, token no proveído o formato incorrecto',
+        })
+    }
+    const token = authHeader.split(' ')[1] // Extraemos el token
+
+    // console.log('Cookies recibidas:', req.cookies) // Esto ya no será relevante
+    if (!token)
+      return res.status(401).json({ message: 'No autorizado, token no existe' }) // Redundante si se valida authHeader
     jwt.verify(token, process.env.SECRET_KEY_JWT, async (err, user) => {
-      if (err) return res.status(401).json({ message: 'No autorizado' })
+      if (err)
+        return res
+          .status(401)
+          .json({ message: 'No autorizado, token inválido' })
       const userFound = await User.findById(user.id)
-      if (!userFound) return res.status(401).json({ message: 'No autorizado' })
+      if (!userFound)
+        return res
+          .status(401)
+          .json({ message: 'No autorizado, usuario no encontrado' })
       return res.json({
         id: userFound._id,
         username: userFound.username,

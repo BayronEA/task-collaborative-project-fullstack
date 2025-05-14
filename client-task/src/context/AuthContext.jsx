@@ -1,4 +1,3 @@
-import Cookies from 'js-cookie'
 import { createContext, useContext, useEffect, useState } from 'react'
 import { loginRequest, registerRequest, verifyTokenRequest } from '../api/auth'
 export const AuthContext = createContext()
@@ -15,35 +14,51 @@ export const AuthProvider = ({ children }) => {
   const [errors, setErrors] = useState([])
   const [loading, setLoading] = useState(true)
 
-  const signup = async user => {
+  const signup = async userData => {
+    // Cambié 'user' a 'userData' para evitar confusión con el estado 'user'
     try {
-      const res = await registerRequest(user)
-      console.log(res)
-      setUser(res)
-      setIsAuthenticated(true)
+      const res = await registerRequest(userData)
+      console.log('Registro exitoso:', res)
     } catch (error) {
-      setErrors(error)
-      console.log(error)
+      console.error('Error en signup:', error)
+      setErrors(
+        Array.isArray(error) ? error : [error.message || 'Error en el registro']
+      )
     }
   }
 
-  const signin = async user => {
+  const signin = async userData => {
     try {
-      const res = await loginRequest(user)
-      setIsAuthenticated(true)
-      setUser(res)
-    } catch (error) {
-      if (Array.isArray(error)) {
-        return setErrors(error)
+      setLoading(true)
+      const res = await loginRequest(userData)
+      if (res.token) {
+        localStorage.setItem('token', res.token)
+        setUser({ id: res.id, username: res.username, email: res.email })
+        setIsAuthenticated(true)
+        setErrors([])
+      } else {
+        throw new Error('Token no recibido del backend')
       }
-      setErrors([error.message])
+    } catch (error) {
+      console.error('Error en signin:', error)
+      localStorage.removeItem('token') // Limpiar token si el login falla
+      setUser(null)
+      setIsAuthenticated(false)
+      setErrors(
+        Array.isArray(error)
+          ? error
+          : [error.message || 'Error en el inicio de sesión']
+      )
+    } finally {
+      setLoading(false)
     }
   }
 
-  const logout = () => {
-    Cookies.remove('token')
+  const logout = async () => {
+    localStorage.removeItem('token')
     setUser(null)
     setIsAuthenticated(false)
+    await instance.post('/logout')
   }
 
   useEffect(() => {
@@ -54,30 +69,35 @@ export const AuthProvider = ({ children }) => {
   }, [errors])
 
   useEffect(() => {
-    async function checkLogin() {
-      const cookies = Cookies.get()
-      if (!cookies.token) {
+    const checkLoginStatus = async () => {
+      const token = localStorage.getItem('token')
+      if (!token) {
         setIsAuthenticated(false)
         setLoading(false)
-        return setUser(null)
+        setUser(null)
+        return
       }
 
       try {
-        const res = await verifyTokenRequest(cookies.token)
-        if (!res) {
+        const res = await verifyTokenRequest()
+        if (res && res.id) {
+          setIsAuthenticated(true)
+          setUser(res)
+        } else {
           setIsAuthenticated(false)
-          setLoading(false)
-          return
+          setUser(null)
+          localStorage.removeItem('token') // Token inválido o usuario no encontrado
         }
-        setIsAuthenticated(true)
-        setUser(res)
-        setLoading(false)
       } catch (error) {
+        console.error('Error verificando token:', error)
+        localStorage.removeItem('token')
         setIsAuthenticated(false)
         setUser(null)
+      } finally {
+        setLoading(false)
       }
     }
-    checkLogin()
+    checkLoginStatus()
   }, [])
 
   return (
