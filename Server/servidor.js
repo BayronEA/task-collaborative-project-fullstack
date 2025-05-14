@@ -11,6 +11,9 @@ app.use(
   cors({
     origin: ['http://localhost:5173', 'https://taskcollaborative.vercel.app'],
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    exposedHeaders: ['set-cookie'],
   })
 )
 app.use(express.json())

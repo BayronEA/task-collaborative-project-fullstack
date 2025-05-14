@@ -54,12 +54,14 @@ export class authController {
           secure: true,
           httpOnly: true,
           path: '/',
+          domain: '.vercel.app',
         })
         .json({
           id: userFound._id,
           username: userFound.username,
           email: userFound.email,
         })
+      console.log('cookies en el backend', req.cookies)
     } catch (error) {
       if (error instanceof Error) {
         res.status(401).send(error.message)
