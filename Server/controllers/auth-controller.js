@@ -54,7 +54,6 @@ export class authController {
           secure: true,
           httpOnly: true,
           path: '/',
-          domain: '.vercel.app',
         })
         .json({
           id: userFound._id,
