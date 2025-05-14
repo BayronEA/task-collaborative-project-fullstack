@@ -11,9 +11,6 @@ app.use(
   cors({
     origin: ['http://localhost:5173', 'https://taskcollaborative.vercel.app'],
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    exposedHeaders: ['set-cookie'],
   })
 )
 app.use(express.json())
@@ -26,7 +23,7 @@ app.get('/', (req, res) => {
   res.send('<h1>Hola prueba</h1>')
 })
 
-//const port = process.env.PORT ?? 3000
-//app.listen(port, () => {
-//  console.log(`servidor corriendo en el puerto http://localhost:${port}`)
-//})
+const port = process.env.PORT ?? 3000
+app.listen(port, () => {
+  console.log(`servidor corriendo en el puerto http://localhost:${port}`)
+})
