@@ -72,8 +72,6 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(true)
         setUser(res)
         setLoading(false)
-        console.log('cookies con document', document.cookie)
-        console.log(cookies.token)
       } catch (error) {
         setIsAuthenticated(false)
         setUser(null)
