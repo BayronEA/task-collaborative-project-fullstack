@@ -50,9 +50,7 @@ export class authController {
       })
       res
         .cookie('token', token, {
-          httpOnly: true,
-          sameSite: 'None',
-          secure: true,
+          sameSite: 'none',
         })
         .json({
           id: userFound._id,
